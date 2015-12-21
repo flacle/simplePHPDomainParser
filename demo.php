@@ -46,6 +46,9 @@ require_once './index.php';
    'shop.retail.mystore.co.uk',
    'test.test.at',
    'buynow.com.br',
+   '食狮.中国',
+   'xn--85x722f.com.cn',
+   'www.食狮.公司.cn',
    'http://username:password@firstexample.com/',
    'mailto:someone@example.com',
    'mailto:someone@example.com?subject=This%20is%20the%20subject'. //cont...
