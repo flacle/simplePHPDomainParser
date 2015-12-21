@@ -23,8 +23,8 @@
  * The lib actually uses a pre-generated PHP array instead of the .dat file for 
  * performance reasons (no pre-processing required, and no external data loads).
  *
- * Every time you update the .dat file, you should also run /src/parser.php to
- * update the PHP array as well.
+ * Every time you update the .dat file, you should also run 
+ * /src/serializeToPHP.php to update the PHP array as well.
  *
  * Finally this simplified parser was inspired by:
  * - https://github.com/jeremykendall/php-domain-parser
