@@ -91,12 +91,17 @@ foreach ($fileLines as $lineNum => $line) {
     // Check if there are SLD+'s
     if ($tldDot > 0) {
       $tld = substr($line, $tldDot+1);
-      if (is_array($tldArr[$tld])) {
-        // Append to sub-array
-        $tldArr[$tld][] = $line;
+      if (isset($tldArr[$tld])) {
+        if (is_array($tldArr[$tld])) {
+          // Append to sub-array with existing values
+          $tldArr[$tld][] = $line;
+        } else {
+          // Init just one array with the new value
+          $tldArr[$tld] = array($line);  
+        } 
       } else {
-        // Init just one array
-        $tldArr[$tld] = array($line);  
+        // Store just a string, not an array
+        $tldArr[$line] = $line;  
       }
     } else {
       // Else just store the TLD as the key
