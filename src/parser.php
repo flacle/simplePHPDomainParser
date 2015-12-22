@@ -51,6 +51,12 @@ function cleanseURL(&$url) {
     $url = substr($url, 0, $queries);
   }
   
+  // Check for remaining ports and remove them
+  $ports = strrpos($url, ':');
+  if ($ports !== false) {
+    $url = substr($url, 0, $ports);
+  }
+  
   // Append a random char such as % at the end for faster TLD matching
   $url = $url.'%';
 }

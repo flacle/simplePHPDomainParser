@@ -50,6 +50,7 @@ require_once './index.php';
    'xn--85x722f.com.cn',
    'www.食狮.公司.cn',
    'http://username:password@firstexample.com/',
+   'http://username:password@regdomain.com:9090/path?arg=value#anchor',
    'mailto:someone@example.com',
    'mailto:someone@example.com?subject=This%20is%20the%20subject'. //cont...
    '&cc=someone_else@example.com&body=This%20is%20the%20body',
