@@ -34,3 +34,6 @@ By including `index.php` into your project you automatically include the file `p
 
 ### Maintaining the ICANN reference list
 The ICANN public suffix list comes from https://github.com/publicsuffix/list (thanks Mozilla!). This list is maintained from time to time and if you decide to use it you should also update [public_suffix_list.dat](https://github.com/flacle/simplePHPDomainParser/blob/master/publicsuffixlists/public_suffix_list.dat) from time to time stored in folder `/publicsuffixlists/`. The util parses only public ICANN domains, and not private ones, however feel free to fork and adapt the code as as you see fit. Every time you update the .dat file, you should also run `/src/serializeToPHP.php` to update the PHP array as well.
+
+### Contributor
+* [Francis Laclé](http://visualacuity.nl), blog [visualacuity.nl](http://visualacuity.nl)

@@ -38,7 +38,6 @@
  *  the start of a rule marks an exception to a previous wildcard rule. An 
  *  exception rule takes priority over any other matching rule.
  ******************************************************************************/
-
 namespace simplePHPDomainParser;
 
 $inputDir = '../publicsuffixlists/';
@@ -49,7 +48,7 @@ $phpFile = 'public_suffix_list.php';
 
 // Get file contents into memory
 $fileLines = file(
-  $inputDir.$datFile, 
+  $inputDir.$datFile,
   FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
 );
 
@@ -62,74 +61,72 @@ $tldArr = array();
 
 // Loop through each line of the loaded input file
 foreach ($fileLines as $lineNum => $line) {
-  
-  if (stripos($line, 'END ICANN DOMAINS') !== false) {
-    $icannDomains = false;
-  }
-  if (strpos($line, '//') === 0) {
-    $commentLine = true;
-  } else {
-    $commentLine = false;
-  }
-  
+    if (stripos($line, 'END ICANN DOMAINS') !== false) {
+        $icannDomains = false;
+    }
+    if (strpos($line, '//') === 0) {
+        $commentLine = true;
+    } else {
+        $commentLine = false;
+    }
+
   // Only parse public ICANN domains that are not comment lines
   if ($icannDomains && !$commentLine) {
-    
+
     // Remove a star followed by a dot
     if (strpos($line, '*.') === 0) {
-      $line = substr($line, 2); 
+        $line = substr($line, 2);
     }
-    
+
     // Or an exclamation point at the beginning
     if (strpos($line, '!') === 0) {
-      $line = substr($line, 1);      
+        $line = substr($line, 1);
     }
-    
+
     // Search for the last dot to separate the TLD from SLD+'s
     $tldDot = strrpos($line, '.');
-    
+
     // Check if there are SLD+'s
     if ($tldDot > 0) {
-      $tld = substr($line, $tldDot+1);
-      if (isset($tldArr[$tld])) {
-        if (is_array($tldArr[$tld])) {
-          // Append to sub-array with existing values
+        $tld = substr($line, $tldDot + 1);
+        if (isset($tldArr[$tld])) {
+            if (is_array($tldArr[$tld])) {
+                // Append to sub-array with existing values
           $tldArr[$tld][] = $line;
+            } else {
+                // Init just one array with the new value
+          $tldArr[$tld] = array($line);
+            }
         } else {
-          // Init just one array with the new value
-          $tldArr[$tld] = array($line);  
-        } 
-      } else {
-        // Store just a string, not an array
-        $tldArr[$line] = $line;  
-      }
+            // Store just a string, not an array
+        $tldArr[$line] = $line;
+        }
     } else {
-      // Else just store the TLD as the key
+        // Else just store the TLD as the key
       $tldArr[$line] = $line;
     }
   }
-  
-  if (stripos($line, 'BEGIN ICANN DOMAINS') !== false) {
-    $icannDomains = true;
-  }
+
+    if (stripos($line, 'BEGIN ICANN DOMAINS') !== false) {
+        $icannDomains = true;
+    }
 }
 
-
 $outputStr = '';
-$outputStr.= '<?php'.PHP_EOL.PHP_EOL;
+$outputStr .= '<?php'.PHP_EOL.PHP_EOL;
 
 // Declare array as string
-$outputStr.= '$icannDomains = ';
+$outputStr .= '$icannDomains = ';
 
 // Append the parsed contents to the string
-$outputStr.= var_export($tldArr, true).';'.PHP_EOL.PHP_EOL;
+$outputStr .= var_export($tldArr, true).';'.PHP_EOL.PHP_EOL;
 
 // Write to file
-try{
-  if(file_put_contents($outputDir.$phpFile, $outputStr, LOCK_EX) !== false) {
-    echo 'Data written to: '.$outputDir.$phpFile; 
-  }
+try {
+    if (file_put_contents($outputDir.$phpFile, $outputStr, LOCK_EX) !== false) {
+        echo 'Data written to: '.$outputDir.$phpFile;
+    }
 } catch (\Exception $e) {
-  echo 'Unable to write to: '.$outputDir.$phpFile.'<br>';
-  echo 'Caught Exception: '.$e->getMessage();
+    echo 'Unable to write to: '.$outputDir.$phpFile.'<br>';
+    echo 'Caught Exception: '.$e->getMessage();
 }
